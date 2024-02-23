@@ -67,13 +67,12 @@ public class EmployeeController {
         return Result.success(employeeLoginVO);
     }
 
-    @PostMapping("/employee")
+    @PostMapping
     @ApiOperation("新增员工")
     public Result<String> save(@RequestBody EmployeeDTO employeeDTO){
-        log.info("Creating new employee: {}", employeeDTO);
-        Employee employee = employeeService.
-
-        return null;
+        log.info("Created new employee: {}", employeeDTO);
+        employeeService.save(employeeDTO);
+        return Result.success();
     }
 
     /**

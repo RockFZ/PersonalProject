@@ -3,7 +3,8 @@ package com.sky.service.impl;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
-import com.sky.dto.EmployeeLoginDTO;
+import com.sky.context.BaseContext;
+import com.sky.dto.*;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
@@ -63,11 +64,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         //3、返回实体对象
         return employee;
     }
-    public void save(EmployeeLoginDTO employeeLoginDTO){
+
+
+    public void save(EmployeeDTO employeeDTO){
+        System.out.println("Current thread id: " + Thread.currentThread().getId());
+
         Employee employee = new Employee();
 
         //对象属性拷贝
-        BeanUtils.copyProperties(employeeLoginDTO, employee);
+        BeanUtils.copyProperties(employeeDTO, employee);
         employee.setStatus(StatusConstant.ENABLE);
 
         //设置密码，默认密码123456
@@ -80,12 +85,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //TODO 后期需要改为当前登录用户的ID
 
-        employee.setCreateUser(10L);
-        employee.setUpdateUser(10L);
+        employee.setCreateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());
 
         //持久层：Mapper
+        employeeMapper.insert(employee);
 
-        
            
 
     }
