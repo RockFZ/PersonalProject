@@ -105,11 +105,34 @@ public class EmployeeServiceImpl implements EmployeeService {
         long total = page.getTotal();
         List<Employee> records = page.getResult();
 
-        
+
 
         return new PageResult(total,records); 
 
 
     }
+    public void startOrStop(Integer status, Long id){
+        // update employee set status = ? where id = ?
+        Employee emp = Employee.builder()
+                            .status(status)
+                            .id(id)
+                            .build();
+        employeeMapper.update(emp);
+    }
+    public Employee selectById(Long id){
+        Employee emp = employeeMapper.selectById(id);
+        emp.setPassword("****");
+        return emp;
 
+    }
+
+    public void update(EmployeeDTO empDTO){
+        Employee emp = new Employee();
+        BeanUtils.copyProperties(empDTO, emp);
+
+        emp.setUpdateTime(LocalDateTime.now());
+        emp.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.update(emp);
+    }
 }

@@ -1,6 +1,7 @@
 package com.sky.mapper;
 
 import com.github.pagehelper.Page;
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 
@@ -21,7 +22,7 @@ public interface EmployeeMapper {
     Employee getByUsername(String username);
 
     /**
-     * 根据用户名查询员工
+     * 新增员工
      * 
      * @param employee
      * @return
@@ -32,10 +33,24 @@ public interface EmployeeMapper {
     void insert(Employee emp);
 
     /**
-     * 根据用户名查询员工
+     * 员工分页查询
      * 
      * @param name page pageSize
      * @return
      */
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    /**
+     * 根据id查询员工
+     * @param status
+     * @param id
+     */
+    @Select("select * from employee where id = #{id} ")
+    Employee selectById(long id);
+
+    /**
+     * 更新员工
+     * @param EmployeeDTO
+     */
+    void update(Employee emp);
 }
